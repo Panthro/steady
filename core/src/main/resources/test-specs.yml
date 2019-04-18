@@ -1,0 +1,30 @@
+defaults:
+  print: true
+  statusCode: 200
+tests:
+  - /greetings:
+      - name: List Greetings
+        responseBody: >
+          ["Hi","Hello","Hey","Howdy"]
+  - /greetings/{name}:
+      - name: Get named greeting
+        urlVariables:
+          - Steady
+        responseBodyContains: Steady
+  - /greetings/{greeting}/{name}:
+      - name: Hello Steady
+        urlVariables:
+          - Hello
+          - Steady
+        responseBodyContains: Hello
+      - name: 404 Greeting
+        statusCode: 404
+        urlVariables:
+          - Nope
+          - Steady
+  - /post/greetings/:
+      - name: POST Howdy Steady
+        method: POST
+        requestBody: Steady
+        content-type: text/plain
+        responseBodyContains: Steady
